@@ -85,28 +85,30 @@ set mouse+=a
 
 call plug#begin()
 
-Plug 'lervag/vimtex'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rafamadriz/friendly-snippets'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-obsession'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'whatyouhide/vim-gotham'
-Plug 'fatih/molokai'
-Plug 'morhetz/gruvbox'
-Plug 'dracula/vim', { 'name': 'dracula' }
-Plug 'rust-lang/rust.vim'
-Plug 'tpope/vim-surround'
 
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/molokai'
+Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'mzlogin/vim-markdown-toc'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
+"Plug 'lervag/vimtex'
+"Plug 'NLKNguyen/papercolor-theme'
+"Plug 'itchyny/lightline.vim'
+"Plug 'tpope/vim-obsession'
+"Plug 'morhetz/gruvbox'
+"Plug 'whatyouhide/vim-gotham'
+"Plug 'dracula/vim', { 'name': 'dracula' }
 call plug#end()
 
 " Spaces & Tabs

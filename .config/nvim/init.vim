@@ -65,7 +65,6 @@ Plug 'fatih/molokai'
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'rust-lang/rust.vim'
-Plug 'tpope/vim-surround'
 
 call plug#end()
 
