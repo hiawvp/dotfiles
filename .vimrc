@@ -5,6 +5,7 @@
 " is present. But we're including it here just in case this config file is
 " loaded some other way (e.g. saved as `foo`, and then Vim started with
 " `vim -u foo`).
+source ~/.cocrc
 set nocompatible
 
 " Turn on syntax highlighting.
@@ -46,7 +47,6 @@ set splitbelow          " Open new vertical split bottom
 set splitright          " Open new horizontal splits right
 set linebreak           " Have lines wrap instead of continue off-screen
 set scrolloff=12        " Keep cursor in approximately the middle of the screen
-set ttyfast             " Improve redrawing
 
 
 " By default, Vim doesn't let you hide a buffer (i.e. have a buffer that isn't
@@ -75,6 +75,7 @@ set clipboard=unnamed
 " sometimes be convenient.
 set mouse+=a
 " Move lines up/down with alt + j/k 
+" cannot use because of WM shorcuts
 " nnoremap <A-j> :m .+1<CR>==
 " nnoremap <A-k> :m .-2<CR>==
 " inoremap <A-j> <Esc>:m .+1<CR>==gi
@@ -104,6 +105,7 @@ Plug 'fatih/molokai'
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -127,6 +129,16 @@ set background=light
 "let g:lightline = { 'colorscheme': 'gotham' }
 "let g:gruvbox_contrast_dark='default'
 """}}
+highlight Search cterm=NONE ctermfg=black ctermbg=darkblue
+
+" golang colorschemes
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_doc_popup_window = 1
+
 
 let g:vrc_set_default_mapping = 0
 "{{ Configuring NerdTree
@@ -145,6 +157,8 @@ autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 "}}
+" ctrlp ignore dirs
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|target\|tmp'
 
 
 "{{ Configuring coc
@@ -153,24 +167,24 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 "Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-       \ pumvisible() ? "\<C-n>" :
-       \ CheckBackspace() ? "\<TAB>" :
-       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+       "\ pumvisible() ? "\<C-n>" :
+       "\ CheckBackspace() ? "\<TAB>" :
+       "\ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+"function! CheckBackspace() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+"" Use <c-space> to trigger completion.
+"inoremap <silent><expr> <c-space> coc#refresh()
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"" Make <CR> auto-select the first completion item and notify coc.nvim to
+"" format on enter, <cr> could be remapped by other vim plugin
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+            "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 
 
@@ -196,17 +210,15 @@ let g:coc_global_extensions = [
             \ ]
 
 "}}
-
+"some maps
 let g:rustfmt_autosave = 1
 nmap <leader>w :w!<cr>
-nmap <leader>q :q<cr>
+nmap <leader>; A;<Esc>
 "nnoremap <leader>p :set paste!<cr>
 nnoremap <leader>p "+p<cr>
 vmap <leader>y :w !xclip -selection clipboard <cr><cr>
+vmap y ygv<Esc>
 nnoremap <leader>n :NERDTreeFocus<CR>
-
-"remap prefix for window movement
-"nnoremap <Leader>j <C-w>
 
 " nerdcommenter
 nmap <leader>c <plug>NERDCommenterToggle
@@ -240,8 +252,16 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
 "nnoremap ^[[1;3Ap:m .-2<CR>==
-nmap <leader> ] <Plug>(coc-diagnostic-next) 
-nmap <leader> [ <Plug>(coc-diagnostic-prev) 
+nmap <leader>] <Plug>(coc-diagnostic-next) 
+"xmap <leader> ] <Plug>(coc-diagnostic-next) 
+nmap <leader>[ :call CocAction('diagnosticPrevious')<CR>
+"nmap <leader> [ <Plug>(coc-diagnostic-next) 
+"try
+    "nmap <silent> [c :call CocAction('diagnosticNext')<cr>
+    "nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
+"endtry
+"nmap <leader>] :call CocAction('diagnosticNext')<CR>
+"xmap <leader>] :call CocAction('diagnosticNext')<CR>
 
 
 function! WrapForTmux(s)

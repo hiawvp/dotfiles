@@ -411,6 +411,7 @@ alias air='/home/joselo/go/bin/air'
 alias checkappbackend="code /home/joselo/checkapp/backend/checkapp_api && exit"
 alias cr='cargo run'
 alias cck='cargo check'
+alias vim='nvim'
 #create a file called .zshrc-personal and put all your personal aliases
 #in there. They will not be overwritten by skel.
 
