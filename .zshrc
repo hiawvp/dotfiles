@@ -401,17 +401,18 @@ alias personal='cp -Rf /personal/* ~'
 # database para testing
 alias testdb="systemctl start httpd.service mariadb.service"
 alias mysql="mysql -u root -p"
-alias cdfront='cd /home/joselo/Documents/Taller_tent/front/info282-implementacion/front && code . && exit'
-alias cdback='cd /home/joselo/Documents/Taller_tent/back/info282-implementacion && code . && exit'
-alias fintri='cd ~/Documents/FinTree/FinTree && conda activate fintree && code . && exit'
+#alias cdfront='cd /home/joselo/Documents/Taller_tent/front/info282-implementacion/front && code . && exit'
+#alias cdback='cd /home/joselo/Documents/Taller_tent/back/info282-implementacion && code . && exit'
+#alias fintri='cd ~/Documents/FinTree/FinTree && conda activate fintree && code . && exit'
 # luz calida modo nocturno flux redshift
 #
-alias fluxo='redshift -P -O 4000'
+#alias fluxo='redshift -P -O 4000'
 alias air='/home/joselo/go/bin/air'
-alias checkappbackend="code /home/joselo/checkapp/backend/checkapp_api && exit"
-alias cr='cargo run'
-alias cck='cargo check'
+#alias checkappbackend="code /home/joselo/checkapp/backend/checkapp_api && exit"
+#alias cr='cargo run'
+#alias cck='cargo check'
 alias vim='nvim'
+alias topdf='libreoffice --headless --invisible --convert-to pdf'
 #create a file called .zshrc-personal and put all your personal aliases
 #in there. They will not be overwritten by skel.
 
