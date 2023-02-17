@@ -401,6 +401,7 @@ alias personal='cp -Rf /personal/* ~'
 # database para testing
 alias testdb="systemctl start httpd.service mariadb.service"
 alias mysql="mysql -u root -p"
+alias valijenk='curl --user jvasquez:pastopasto -X POST -F "jenkinsfile=<Jenkinsfile" http://146.83.216.251:8080/pipeline-model-converter/validate'
 #alias cdfront='cd /home/joselo/Documents/Taller_tent/front/info282-implementacion/front && code . && exit'
 #alias cdback='cd /home/joselo/Documents/Taller_tent/back/info282-implementacion && code . && exit'
 #alias fintri='cd ~/Documents/FinTree/FinTree && conda activate fintree && code . && exit'
