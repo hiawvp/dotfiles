@@ -11,7 +11,11 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/flutter/bin
 export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
 export PATH=$PATH:~/go/bin
-export CPLUS_INCLUDE_PATH="/usr/lib/gcc/x86_64-pc-linux-gnu/12.1.0/include/"
+export CPLUS_INCLUDE_PATH="/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/"
+export JENKINS_PASSWORD=pastopasto
+export JENKINS_USER_ID=jvasquez
+#export JENKINS_URL="http://146.83.216.251:8080/"pipeline-model-converter/validate
+export JENKINS_URL="http://146.83.216.251:8080/"
 
 export GOPATH=/home/joselo/go/bin
 
@@ -128,10 +132,8 @@ unsetopt SHARE_HISTORY
 
 export HISTCONTROL=ignoreboth:erasedups
 
-# Make nano the default editor
-
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 #PS1='[\u@\h \W]\$ '
 

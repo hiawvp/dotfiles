@@ -1,11 +1,38 @@
 {
-  "svelte.enable-ts-plugin": true,
+  "svelte.plugin.typescript.enable": true,
+  "svelte.plugin.svelte.hover.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
     "yaml",
     "javascript",
     "typescript",
-    "json"
-  ]
+    "json",
+    "svelte",
+    "cpp",
+    "h"
+  ],
+  "snippets.ultisnips.pythonPrompt": false,
+  "svelte.enable-ts-plugin": true,
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        },
+        "clang": {
+          "extraArgs": ["--gcc-toolchain=/usr"]
+        },
+        "highlight": {
+          "lsRanges": true
+        }
+      }
+    }
+  }
 }

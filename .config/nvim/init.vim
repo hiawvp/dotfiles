@@ -25,7 +25,11 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'christoomey/vim-tmux-navigator'
 "Plug 'tpope/vim-obsession'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sleuth'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 
 "themes
 "Plug 'dracula/vim', { 'name': 'dracula' }
@@ -40,6 +44,22 @@ Plug 'whatyouhide/vim-gotham'
 "lang specific
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'heavenshell/vim-jsdoc', {
+  \ 'for': ['javascript', 'javascript.jsx','typescript'],
+  \ 'do': 'make install'
+\}
+
+Plug 'ckipp01/nvim-jenkinsfile-linter'
+Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+"Plug 'MarcWeber/vim-addon-mw-utils'
+"Plug 'tomtom/tlib_vim'
+"Plug 'garbas/vim-snipmate'
+
+"Plugin 'honza/vim-snippets'
+
+"Plug 'dccsillag/magma-nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 
@@ -58,20 +78,18 @@ require'dracula'.setup {
 }
 EOF
 
-lua << EOF
 
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-    },
-    indent = {
-        enable = false,
-    },
-}
+" You might have to force true color when using regular vim inside tmux as the
+" colorscheme can appear to be grayscale with 'termguicolors' option enabled.
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
-EOF
-
+syntax on
+set termguicolors
 colorscheme dracula
+
 let g:lightline = {
             \ 'colorscheme': 'gotham',
             \ 'active': {
@@ -84,8 +102,7 @@ let g:lightline = {
             \ },
             \ }
 
-highlight Search cterm=NONE ctermfg=black ctermbg=darkblue
-
+highlight Search cterm=NONE ctermfg=black ctermbg=darkblue guibg=DeepSkyBlue4 guifg=SkyBlue1
 
 "golang colorschemes
 let g:go_highlight_types = 1
@@ -97,6 +114,16 @@ let g:go_highlight_extra_types = 1
 let g:vrc_set_default_mapping = 0
 
 
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    indent = {
+        enable = false,
+    },
+}
+EOF
 
 "{{ Configuring NerdTree
 map <C-n> :NERDTreeToggle<CR>
@@ -154,6 +181,8 @@ let g:coc_global_extensions = [
 let g:rustfmt_autosave = 1
 "some plugin specific maps
 "
+"
+nmap <leader>d <Plug>(jsdoc)
 
 " nerdcommenter
 "nmap <leader>c <plug>NERDCommenterToggle
@@ -161,11 +190,12 @@ let g:rustfmt_autosave = 1
 nmap <C-_> <plug>NERDCommenterToggle
 vmap <C-_> <plug>NERDCommenterToggle
 
-nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd :call CocAction('jumpDefinition', 'tab drop')<CR>
+nmap <silent> gv :call CocAction('jumpDefinition', v:false)<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <leader> h :CocCommand clangd.switchSourceHeader<CR>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -191,6 +221,16 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 nmap <leader>] <Plug>(coc-diagnostic-next) 
 "xmap <leader> ] <Plug>(coc-diagnostic-next) 
 nmap <leader>[ :call CocAction('diagnosticPrevious')<CR>
+
+" telescope
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+
 "nmap <leader> [ <Plug>(coc-diagnostic-next) 
 "try
     "nmap <silent> [c :call CocAction('diagnosticNext')<cr>
@@ -215,13 +255,20 @@ let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
 " CocInlayHint   xxx ctermfg=7 ctermbg=235 guifg=LightGrey guibg=#232526
-hi CocInlayHint   ctermfg=7 ctermbg=17 guifg=Blue guibg=#232526
+hi CocInlayHint   ctermfg=32 ctermbg=17 guifg=DeepSkyBlue3 guibg=#232526
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
+function! JenkinsfileLinterValidate()
+  call nvim_exec('lua require("jenkinsfile_linter").validate()', 0)
+endfunction
+
+
+command! -nargs=0 ValiJenk :call JenkinsfileLinterValidate()
 
 
 source ~/.vimrc
