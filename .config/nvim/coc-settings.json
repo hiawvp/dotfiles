@@ -28,9 +28,6 @@
         },
         "clang": {
           "extraArgs": ["--gcc-toolchain=/usr"]
-        },
-        "highlight": {
-          "lsRanges": true
         }
       }
     }

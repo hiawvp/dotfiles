@@ -4,7 +4,7 @@ let &packpath = &runtimepath
 
 call plug#begin()
 
-"Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
 "cock
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -18,7 +18,7 @@ Plug 'ryanoasis/vim-devicons'
 " navegacion con [c y ]c
 Plug 'airblade/vim-gitgutter' 
 "fuzzy finder
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 "leader c comments
 Plug 'scrooloose/nerdcommenter'
 "Plug 'rafamadriz/friendly-snippets'
@@ -51,7 +51,7 @@ Plug 'heavenshell/vim-jsdoc', {
 
 Plug 'ckipp01/nvim-jenkinsfile-linter'
 Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+"Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 "Plug 'MarcWeber/vim-addon-mw-utils'
 "Plug 'tomtom/tlib_vim'
@@ -136,8 +136,8 @@ let NERDTreeShowHidden=1
 "autocmd vimenter * NERDTree
 
 " Start NERDTree when Vim is started without file arguments.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -225,6 +225,7 @@ nmap <leader>[ :call CocAction('diagnosticPrevious')<CR>
 " telescope
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
