@@ -112,6 +112,7 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_extra_types = 1
 
 let g:vrc_set_default_mapping = 0
+let g:vimtex_view_general_viewer = 'evince'
 
 
 lua << EOF
