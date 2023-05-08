@@ -5,7 +5,7 @@
 " is present. But we're including it here just in case this config file is
 " loaded some other way (e.g. saved as `foo`, and then Vim started with
 " `vim -u foo`).
-source ~/.cocrc
+"source ~/.cocrc
 set nocompatible
 
 " Turn on syntax highlighting.
@@ -127,5 +127,3 @@ noremap <leader>5 5gt
 "syntax on
 "set termguicolors
 "colorscheme dracula
-
-
