@@ -1,4 +1,5 @@
 {
+  "snippets.ultisnips.pythonPrompt": false,
   "svelte.plugin.typescript.enable": true,
   "svelte.plugin.svelte.hover.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
@@ -33,3 +34,4 @@
     }
   }
 }
+
