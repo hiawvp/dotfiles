@@ -45,6 +45,8 @@ vim.g.maplocalleader = ' '
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.g.vimtex_view_general_viewer = 'evince'
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -101,9 +103,10 @@ require('lazy').setup({
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'rafamadriz/friendly-snippets', 'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip' },
   },
+  { 'hrsh7th/cmp-omni' },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -223,6 +226,8 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua', opts = {},
   },
+
+  { 'lervag/vimtex' },
 
   { 'christoomey/vim-tmux-navigator' },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -557,6 +562,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' },
   },
 }
 

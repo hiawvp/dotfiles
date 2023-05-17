@@ -7,10 +7,13 @@ fi
 
 #If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export JAVA_HOME=/opt/android-studio/jbr
+# export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/flutter/bin
 export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
 export PATH=$PATH:~/go/bin
+export PATH=$PATH:/opt/flutter/bin
 export CPLUS_INCLUDE_PATH="/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/"
 export JENKINS_PASSWORD=pastopasto
 export JENKINS_USER_ID=jvasquez
