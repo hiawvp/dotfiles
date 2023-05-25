@@ -339,7 +339,9 @@ local function pl(widget, bgcolor, padding)
 end
 
 function theme.at_screen_connect(s)
-   mykeyboardlayout = awful.widget.keyboardlayout()
+
+    --keyboard layout
+    mykeyboardlayout = awful.widget.keyboardlayout()
 
     -- Quake application
    -- s.quake = lain.util.quake({ app = awful.util.terminal })
@@ -390,7 +392,7 @@ function theme.at_screen_connect(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
-	    mykeyboardlayout,
+            mykeyboardlayout,
             --[[ using shapes
             pl(wibox.widget { mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }, "#343434"),
             pl(task, "#343434"),
