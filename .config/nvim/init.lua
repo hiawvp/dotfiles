@@ -136,14 +136,17 @@ require('lazy').setup({
     config = function()
       require('dracula').setup {
         colors = {
-          bg = '#110b33',
-          selection = "#2c113d",
+          -- bg = '#910b33',
+          -- selection = "#2c113d",
+          selection = "#573675",
+          comment = "#6b61ff",
           -- selection = "#44475A",
         },
         show_end_of_buffer = true,
         transparent_bg = true,
         lualine_bg_color = '#44475a',
-        italic_comment = true
+        italic_comment = true,
+        overrides = {}
       }
       vim.cmd.colorscheme 'dracula'
     end,
@@ -166,12 +169,8 @@ require('lazy').setup({
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    main = "ibl",
+    opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -229,7 +228,25 @@ require('lazy').setup({
 
   { 'lervag/vimtex' },
 
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
+
   { 'christoomey/vim-tmux-navigator' },
+  { 'norcalli/nvim-colorizer.lua' },
+
+
+  {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    }
+  }
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -321,6 +338,23 @@ require('telescope').setup {
     },
   },
 }
+
+require("mason-null-ls").setup({
+  ensure_installed = { "black" }
+})
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.djlint.with({
+      command = "djlint",
+      args = { "--reformat", "-" }
+    }),
+  },
+})
+
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -420,6 +454,8 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+require 'colorizer'.setup()
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
@@ -481,6 +517,7 @@ vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   clangd = { fallbackFlags = { 'std=c++17' } },
+  html = { filetypes = { 'html', 'htmldjango' } },
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
@@ -488,7 +525,15 @@ local servers = {
 
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          '/usr/share/nvim/runtime/lua',
+          '/usr/share/nvim/runtime/lua/lsp',
+          '/usr/share/awesome/lib'
+        }
+      },
+      diagnostics = { enable = true, globals = { 'vim', 'awesome', 'client', 'root' } },
       telemetry = { enable = false },
     },
   },
@@ -525,6 +570,7 @@ local luasnip = require 'luasnip'
 luasnip.config.setup {
   require("luasnip/loaders/from_vscode").load()
 }
+luasnip.filetype_extend("htmldjango", { "html" })
 
 cmp.setup {
   snippet = {

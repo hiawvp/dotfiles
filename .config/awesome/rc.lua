@@ -38,7 +38,7 @@ local freedesktop                    = require("freedesktop")
 -- when client with a matching name is opened:
 local hotkeys_popup                  = require("awful.hotkeys_popup").widget
 require("awful.hotkeys_popup.keys")
-local my_table = awful.util.table or gears.table      -- 4.{0,1} compatibility
+local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local dpi      = require("beautiful.xresources").apply_dpi
 -- }}}
 
@@ -178,9 +178,9 @@ awful.util.taglist_buttons             = my_table.join(
         if client.focus then
             client.focus:toggle_tag(t)
         end
-    end),
-    awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
-    awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
+    end)
+-- awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
+-- awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 awful.util.tasklist_buttons            = my_table.join(
@@ -299,9 +299,9 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(my_table.join(
-    awful.button({}, 3, function() awful.util.mymainmenu:toggle() end),
-    awful.button({}, 4, awful.tag.viewnext),
-    awful.button({}, 5, awful.tag.viewprev)
+    awful.button({}, 3, function() awful.util.mymainmenu:toggle() end)
+-- awful.button({}, 4, awful.tag.viewnext),
+-- awful.button({}, 5, awful.tag.viewprev)
 ))
 -- }}}
 
@@ -311,18 +311,9 @@ root.buttons(my_table.join(
 globalkeys = my_table.join(
 
 -- {{{ Personal keybindings
-    awful.key({ modkey }, "w", function() awful.util.spawn(browser1) end,
-        { description = browser1, group = "function keys" }),
     awful.key({ modkey, }, "space", function() mykeyboardlayout.next_layout() end,
         { description = "select next", group = "layout" }),
     -- dmenu
-    awful.key({ modkey, "Shift" }, "d",
-        function()
-            awful.spawn(string.format(
-                "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn NotoMonoRegular:bold:pixelsize=14",
-                beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
-        end,
-        { description = "show dmenu", group = "hotkeys" }),
 
     awful.key({ modkey }, "d",
         function()
@@ -338,8 +329,8 @@ globalkeys = my_table.join(
 
 
     -- super + ... function keys
-    awful.key({ modkey }, "F1", function() awful.util.spawn(browser1) end,
-        { description = browser1, group = "function keys" }),
+    awful.key({ modkey }, "F1", function() awful.util.spawn("firefox -P work") end,
+        { description = "firefox work profile", group = "function keys" }),
     awful.key({ modkey }, "F2", function() awful.util.spawn("code") end,
         { description = "code", group = "function keys" }),
     awful.key({ modkey }, "F3", function() awful.util.spawn("subl") end,
@@ -350,37 +341,23 @@ globalkeys = my_table.join(
         { description = "firefox", group = "function keys" }),
     awful.key({ modkey }, "F6", function() awful.util.spawn("firefox --private-window") end,
         { description = "firefox private", group = "function keys" }),
-    awful.key({ modkey }, "F7", function() awful.util.spawn("virtualbox") end,
-        { description = virtualmachine, group = "function keys" }),
-    awful.key({ modkey }, "F8", function() awful.util.spawn(filemanager) end,
-        { description = filemanager, group = "function keys" }),
-    awful.key({ modkey }, "F9", function() awful.util.spawn(mailclient) end,
-        { description = mailclient, group = "function keys" }),
-    awful.key({ modkey }, "F10", function() awful.util.spawn(mediaplayer) end,
-        { description = mediaplayer, group = "function keys" }),
-    awful.key({ modkey }, "F11",
-        function() awful.util.spawn("rofi -theme-str 'window {width: 100%;height: 100%;}' -show drun") end,
-        { description = "rofi fullscreen", group = "function keys" }),
+    awful.key({ modkey }, "F7", function()
+            awful.spawn.raise_or_spawn("microsoft-edge-stable"
+            , nil, function(c)
+                if c.class == "Microsoft-edge" then
+                    client.focus = c
+                    return true
+                end
+                return false
+            end)
+        end,
+        { description = "microsoft edge", group = "function keys" }),
     awful.key({ modkey }, "F12", function() awful.util.spawn("flameshot gui") end,
         { description = "flameshot", group = "function keys" }),
-
-    -- super + ...
-    awful.key({ modkey }, "c", function() awful.util.spawn("conky-toggle") end,
-        { description = "conky-toggle", group = "super" }),
-    awful.key({ modkey, modkey1 }, "c", function() awful.util.spawn("killall conky") end,
-        { description = "conky killall", group = "super" }),
-    awful.key({ modkey }, "e", function() awful.util.spawn(editorgui) end,
-        { description = "run gui editor", group = "super" }),
-    --awful.key({ modkey }, "h", function () awful.util.spawn( "urxvt -T 'htop task manager' -e htop" ) end,
-    --{description = "htop", group = "super"}),
-    awful.key({ modkey }, "r", function() awful.util.spawn("rofi-theme-selector") end,
-        { description = "rofi theme selector", group = "super" }),
     awful.key({ modkey }, "t", function() awful.util.spawn(terminal) end,
         { description = "terminal", group = "super" }),
     awful.key({ modkey }, "v", function() awful.util.spawn("pavucontrol") end,
         { description = "pulseaudio control", group = "super" }),
-    --awful.key({ modkey }, "u", function () awful.screen.focused().mypromptbox:run() end,
-    --{description = "run prompt", group = "super"}),
     awful.key({ modkey }, "x", function() awful.util.spawn("archlinux-logout") end,
         { description = "exit", group = "hotkeys" }),
     awful.key({ modkey }, "Escape", function() awful.util.spawn("xkill") end,
@@ -389,86 +366,33 @@ globalkeys = my_table.join(
     -- super + shift + ...
     awful.key({ modkey, "Shift" }, "Return", function() awful.util.spawn(filemanager) end),
 
-
-    -- ctrl + shift + ...
-    awful.key({ modkey1, "Shift" }, "Escape", function() awful.util.spawn("xfce4-taskmanager") end),
-
-
-    -- ctrl+alt +  ...
-    awful.key({ modkey1, altkey }, "w", function() awful.util.spawn("arcolinux-welcome-app") end,
-        { description = "ArcoLinux Welcome App", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "e", function() awful.util.spawn("archlinux-tweak-tool") end,
-        { description = "ArcoLinux Tweak Tool", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "Next", function() awful.util.spawn("conky-rotate -n") end,
-        { description = "Next conky rotation", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "Prior", function() awful.util.spawn("conky-rotate -p") end,
-        { description = "Previous conky rotation", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "a", function() awful.util.spawn("xfce4-appfinder") end,
-        { description = "Xfce appfinder", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "b", function() awful.util.spawn(filemanager) end,
-        { description = filemanager, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "c", function() awful.util.spawn("catfish") end,
-        { description = "catfish", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "f", function() awful.util.spawn(browser2) end,
-        { description = browser2, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "g", function() awful.util.spawn(browser3) end,
-        { description = browser3, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "i", function() awful.util.spawn("nitrogen") end,
-        { description = nitrogen, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "k", function() awful.util.spawn("archlinux-logout") end,
-        { description = scrlocker, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "l", function() awful.util.spawn("archlinux-logout") end,
-        { description = scrlocker, group = "alt+ctrl" }),
+    -- shift + alt + ...
     awful.key({ modkey1, altkey }, "o",
         function() awful.spawn.with_shell("$HOME/.config/awesome/scripts/picom-toggle.sh") end,
         { description = "Picom toggle", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "s", function() awful.util.spawn(mediaplayer) end,
-        { description = mediaplayer, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "t", function() awful.util.spawn(terminal) end,
-        { description = terminal, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "u", function() awful.util.spawn("pavucontrol") end,
-        { description = "pulseaudio control", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "v", function() awful.util.spawn(browser1) end,
-        { description = browser1, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "Return", function() awful.util.spawn(terminal) end,
-        { description = terminal, group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "m", function() awful.util.spawn("xfce4-settings-manager") end,
-        { description = "Xfce settings manager", group = "alt+ctrl" }),
-    awful.key({ modkey1, altkey }, "p", function() awful.util.spawn("pamac-manager") end,
-        { description = "Pamac Manager", group = "alt+ctrl" }),
 
     -- alt + ...
-    awful.key({ altkey, "Shift" }, "t",
-        function() awful.spawn.with_shell(
-            "variety -t  && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&") end,
-        { description = "Pywal Wallpaper trash", group = "altkey" }),
     awful.key({ altkey, "Shift" }, "n",
-        function() awful.spawn.with_shell(
-            "variety -n  && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&") end,
+        function()
+            awful.spawn.with_shell(
+                "variety -n  && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&")
+        end,
         { description = "Pywal Wallpaper next", group = "altkey" }),
     awful.key({ altkey, "Shift" }, "u",
         function() awful.spawn.with_shell("wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&") end,
         { description = "Pywal Wallpaper update", group = "altkey" }),
     awful.key({ altkey, "Shift" }, "p",
-        function() awful.spawn.with_shell(
-            "variety -p  && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&") end,
+        function()
+            awful.spawn.with_shell(
+                "variety -p  && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&")
+        end,
         { description = "Pywal Wallpaper previous", group = "altkey" }),
-    awful.key({ altkey }, "t", function() awful.util.spawn("variety -t") end,
-        { description = "Wallpaper trash", group = "altkey" }),
     awful.key({ altkey }, "n", function() awful.util.spawn("variety -n") end,
         { description = "Wallpaper next", group = "altkey" }),
     awful.key({ altkey }, "p", function() awful.util.spawn("variety -p") end,
         { description = "Wallpaper previous", group = "altkey" }),
     awful.key({ altkey }, "f", function() awful.util.spawn("variety -f") end,
         { description = "Wallpaper favorite", group = "altkey" }),
-    awful.key({ altkey }, "Left", function() awful.util.spawn("variety -p") end,
-        { description = "Wallpaper previous", group = "altkey" }),
-    awful.key({ altkey }, "Right", function() awful.util.spawn("variety -n") end,
-        { description = "Wallpaper next", group = "altkey" }),
-    awful.key({ altkey }, "Up", function() awful.util.spawn("variety --pause") end,
-        { description = "Wallpaper pause", group = "altkey" }),
-    awful.key({ altkey }, "Down", function() awful.util.spawn("variety --resume") end,
-        { description = "Wallpaper resume", group = "altkey" }),
     awful.key({ altkey }, "F2", function() awful.util.spawn("xfce4-appfinder --collapsed") end,
         { description = "Xfce appfinder", group = "altkey" }),
     awful.key({ altkey }, "F3", function() awful.util.spawn("xfce4-appfinder") end,
@@ -478,15 +402,15 @@ globalkeys = my_table.join(
 
     -- screenshots
     awful.key({}, "Print",
-        function() awful.util.spawn(
-            "scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'") end,
+        function()
+            awful.util.spawn(
+                "scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'")
+        end,
         { description = "Scrot", group = "screenshots" }),
     awful.key({ modkey1 }, "Print", function() awful.util.spawn("xfce4-screenshooter") end,
         { description = "Xfce screenshot", group = "screenshots" }),
     awful.key({ modkey1, "Shift" }, "Print", function() awful.util.spawn("gnome-screenshot -i") end,
         { description = "Gnome screenshot", group = "screenshots" }),
-
-    -- Personal keybindings}}}
 
 
     -- Hotkeys Awesome
@@ -716,7 +640,7 @@ globalkeys = my_table.join(
     awful.key({}, "XF86AudioMute",
         function()
             os.execute(string.format("amixer -q set %s toggle",
-            beautiful.volume.togglechannel or beautiful.volume.channel))
+                beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
         end),
     awful.key({ modkey1, "Shift" }, "m",
@@ -954,12 +878,22 @@ awful.rules.rules = {
         properties = { titlebars_enabled = false }
     },
     -- Set applications to always map on the tag 2 on screen 1.
-    --{ rule = { class = "Subl" },
-    --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
+    -- {
+    --     rule_any = { class = { "subl", "subl" } },
+    --     properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = false }
+    -- },
 
     {
         rule = { class = "discord" },
         properties = { screen = 1, tag = awful.util.tagnames[4], switchtotag = false }
+    },
+    {
+        rule = { class = "microsoft-edge" },
+        properties = { screen = 1, tag = awful.util.tagnames[7], switchtotag = true }
+    },
+    {
+        rule = { class = "Microsoft-edge" },
+        properties = { screen = 1, tag = awful.util.tagnames[7], switchtotag = true }
     },
 
     -- Set applications to be maximized at startup.
@@ -1022,7 +956,7 @@ awful.rules.rules = {
     {
         rule_any = {
             instance = {
-                "DTA", -- Firefox addon DownThemAll.
+                "DTA",   -- Firefox addon DownThemAll.
                 "copyq", -- Includes session name in class.
             },
             class = {
@@ -1053,7 +987,7 @@ awful.rules.rules = {
             },
             role = {
                 "AlarmWindow", -- Thunderbird's calendar.
-                "pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
+                "pop-up",      -- e.g. Google Chrome's (detached) Developer Tools.
                 "Preferences",
                 "setup",
                 "xfce4-terminal-dropdown",
@@ -1117,15 +1051,15 @@ client.connect_signal("request::titlebars", function(c)
 
     awful.titlebar(c, { size = dpi(21) }):setup {
         {
-          -- Left
+            -- Left
             awful.titlebar.widget.iconwidget(c),
             buttons = buttons,
             layout  = wibox.layout.fixed.horizontal
         },
         {
-              -- Middle
+            -- Middle
             {
-              -- Title
+                -- Title
                 align  = "center",
                 widget = awful.titlebar.widget.titlewidget(c)
             },
@@ -1133,7 +1067,7 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         {
-          -- Right
+            -- Right
             awful.titlebar.widget.floatingbutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.stickybutton(c),
@@ -1152,6 +1086,8 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- Disconnect the client ability to request different size and position
+-- client.disconnect_signal("request::geometry", awful.ewmh.client_geometry_requests)
 
 
 --kbdcfg = {}

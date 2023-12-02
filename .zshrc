@@ -14,16 +14,11 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/flutter/bin
-export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
 export PATH=$PATH:~/go/bin
+export PATH=$PATH:~/go/bin/bin
 export PATH=$PATH:/opt/flutter/bin
-export CPLUS_INCLUDE_PATH="/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/"
-export JENKINS_PASSWORD=pastopasto
-export JENKINS_USER_ID=jvasquez
-#export JENKINS_URL="http://146.83.216.251:8080/"pipeline-model-converter/validate
-export JENKINS_URL="http://146.83.216.251:8080/"
-
 export GOPATH=/home/joselo/go/bin
+export PYTHONDONTWRITEBYTECODE="1"
 
 # Path to your oh-my-zsh installation.
 #installation via script from github
@@ -92,23 +87,46 @@ ZSH_THEME="wedisagree"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM=$HOME/.oh-my-zsh/
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git) 
 
 if [ -f $ZSH/oh-my-zsh.sh ]; then
   source $ZSH/oh-my-zsh.sh
 fi
 
-if [ -f  ~/oneTBB/build/gnu_13.1_cxx11_64_relwithdebinfo/vars.sh ]; then
-  echo "Loading onetbb env vars"
-  source  ~/oneTBB/build/gnu_13.1_cxx11_64_relwithdebinfo/vars.sh
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
+# if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# fi
+
+# if [ -f ~/.oh-my-zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
+#   source ~/.oh-my-zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# fi
+
+# zstyle ':autocomplete:*' default-context history-incremental-search-backward
+# Override history search.
+# zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 5
+# zstyle ':autocomplete:tab:*' widget-style menu-select
+# zstyle ':autocomplete:*' fzf-completion yes
+# zstyle ':autocomplete:*' default-context ''
+# zstyle ':autocomplete:*' min-input 2
+# zstyle ':autocomplete:*' widget-style menu-select
+# bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+# bindkey '\e[A' history-beginning-search-backward
+# bindkey '\eOA' history-beginning-search-backward
+
+# if [ -f  ~/oneTBB/build/gnu_13.1_cxx11_64_relwithdebinfo/vars.sh ]; then
+#   echo "Loading onetbb env vars"
+#   source  ~/oneTBB/build/gnu_13.1_cxx11_64_relwithdebinfo/vars.sh
+# fi
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -130,9 +148,7 @@ fi
 ####   ARCOLINUX SETTINGS   ####
 export PAGER='most'
 
-if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+
 
 setopt GLOB_DOTS
 #share commands between terminal instances or not
@@ -143,8 +159,6 @@ unsetopt SHARE_HISTORY
 [[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
-
-# Make nano the default editor
 
 export EDITOR='nvim'
 export VISUAL='nvim'
@@ -336,11 +350,11 @@ alias sv="sudo systemctl enable --now vmtoolsd.service"
 #shopt -s expand_aliases # expand aliases
 
 #youtube download
-alias yta-aac="yt-dlp --extract-audio --audio-format aac "
-alias yta-best="yt-dlp --extract-audio --audio-format best "
-alias yta-flac="yt-dlp --extract-audio --audio-format flac "
-alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
-alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
+# alias yta-aac="yt-dlp --extract-audio --audio-format aac "
+# alias yta-best="yt-dlp --extract-audio --audio-format best "
+# alias yta-flac="yt-dlp --extract-audio --audio-format flac "
+# alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
+# alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 
 #Recent Installed Packages
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
@@ -375,23 +389,23 @@ alias jctl="journalctl -p 3 -xb"
 
 #nano for important configuration files
 #know what you do in these files
-alias nlxdm="sudo $EDITOR /etc/lxdm/lxdm.conf"
-alias nlightdm="sudo $EDITOR /etc/lightdm/lightdm.conf"
-alias npacman="sudo $EDITOR /etc/pacman.conf"
-alias ngrub="sudo $EDITOR /etc/default/grub"
-alias nconfgrub="sudo $EDITOR /boot/grub/grub.cfg"
-alias nmkinitcpio="sudo $EDITOR /etc/mkinitcpio.conf"
-alias nmirrorlist="sudo $EDITOR /etc/pacman.d/mirrorlist"
-alias narcomirrorlist="sudo $EDITOR /etc/pacman.d/arcolinux-mirrorlist"
-alias nsddm="sudo $EDITOR /etc/sddm.conf"
-alias nsddmk="sudo $EDITOR /etc/sddm.conf.d/kde_settings.conf"
-alias nfstab="sudo $EDITOR /etc/fstab"
-alias nnsswitch="sudo $EDITOR /etc/nsswitch.conf"
-alias nsamba="sudo $EDITOR /etc/samba/smb.conf"
-alias ngnupgconf="sudo $EDITOR /etc/pacman.d/gnupg/gpg.conf"
-alias nhosts="sudo $EDITOR /etc/hosts"
-alias nhostname="sudo $EDITOR /etc/hostname"
-alias nresolv="sudo $EDITOR /etc/resolv.conf"
+# alias nlxdm="sudo $EDITOR /etc/lxdm/lxdm.conf"
+# alias nlightdm="sudo $EDITOR /etc/lightdm/lightdm.conf"
+# alias npacman="sudo $EDITOR /etc/pacman.conf"
+# alias ngrub="sudo $EDITOR /etc/default/grub"
+# alias nconfgrub="sudo $EDITOR /boot/grub/grub.cfg"
+# alias nmkinitcpio="sudo $EDITOR /etc/mkinitcpio.conf"
+# alias nmirrorlist="sudo $EDITOR /etc/pacman.d/mirrorlist"
+# alias narcomirrorlist="sudo $EDITOR /etc/pacman.d/arcolinux-mirrorlist"
+# alias nsddm="sudo $EDITOR /etc/sddm.conf"
+# alias nsddmk="sudo $EDITOR /etc/sddm.conf.d/kde_settings.conf"
+# alias nfstab="sudo $EDITOR /etc/fstab"
+# alias nnsswitch="sudo $EDITOR /etc/nsswitch.conf"
+# alias nsamba="sudo $EDITOR /etc/samba/smb.conf"
+# alias ngnupgconf="sudo $EDITOR /etc/pacman.d/gnupg/gpg.conf"
+# alias nhosts="sudo $EDITOR /etc/hosts"
+# alias nhostname="sudo $EDITOR /etc/hostname"
+# alias nresolv="sudo $EDITOR /etc/resolv.conf"
 alias nb="$EDITOR ~/.bashrc"
 alias nz="$EDITOR ~/.zshrc"
 alias nf="$EDITOR ~/.config/fish/config.fish"
@@ -488,18 +502,18 @@ alias btrfsfs="sudo btrfs filesystem df /"
 alias btrfsli="sudo btrfs su li / -t"
 
 #snapper aliases
-alias snapcroot="sudo snapper -c root create-config /"
-alias snapchome="sudo snapper -c home create-config /home"
-alias snapli="sudo snapper list"
-alias snapcr="sudo snapper -c root create"
-alias snapch="sudo snapper -c home create"
+# alias snapcroot="sudo snapper -c root create-config /"
+# alias snapchome="sudo snapper -c home create-config /home"
+# alias snapli="sudo snapper list"
+# alias snapcr="sudo snapper -c root create"
+# alias snapch="sudo snapper -c home create"
 
 #Leftwm aliases
-alias lti="leftwm-theme install"
-alias ltu="leftwm-theme uninstall"
-alias lta="leftwm-theme apply"
-alias ltupd="leftwm-theme update"
-alias ltupg="leftwm-theme upgrade"
+# alias lti="leftwm-theme install"
+# alias ltu="leftwm-theme uninstall"
+# alias lta="leftwm-theme apply"
+# alias ltupd="leftwm-theme update"
+# alias ltupg="leftwm-theme upgrade"
 
 #arcolinux applications
 #att is a symbolic link now
@@ -530,7 +544,7 @@ alias personal='cp -Rf /personal/* ~'
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
 # reporting tools - install when not installed
-neofetch
+# neofetch
 #screenfetch
 #alsi
 #paleofetch
@@ -544,3 +558,4 @@ neofetch
 #sysinfo-retro
 #cpufetch
 #colorscript random
+#

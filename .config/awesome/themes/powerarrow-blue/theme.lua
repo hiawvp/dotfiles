@@ -5,14 +5,14 @@
 
 --]]
 
-local gears = require("gears")
-local lain  = require("lain")
-local awful = require("awful")
-local wibox = require("wibox")
-local dpi   = require("beautiful.xresources").apply_dpi
+local gears                                     = require("gears")
+local lain                                      = require("lain")
+local awful                                     = require("awful")
+local wibox                                     = require("wibox")
+local dpi                                       = require("beautiful.xresources").apply_dpi
 
-local math, string, os = math, string, os
-local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
+local math, string, os                          = math, string, os
+local my_table                                  = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-blue"
@@ -28,9 +28,9 @@ theme.bg_urgent                                 = "#3F3F3F"
 theme.taglist_fg_focus                          = "#889FA7"
 theme.tasklist_bg_focus                         = "#000000"
 theme.tasklist_fg_focus                         = "#889FA7"
-theme.border_width                              = dpi(2)
+theme.border_width                              = dpi(3)
 theme.border_normal                             = "#3F3F3F"
-theme.border_focus                              = "#6F6F6F"
+theme.border_focus                              = "#863078"
 theme.border_marked                             = "#CC9393"
 theme.titlebar_bg_focus                         = "#3F3F3F"
 theme.titlebar_bg_normal                        = "#3F3F3F"
@@ -79,7 +79,7 @@ theme.widget_scissors                           = theme.dir .. "/icons/scissors.
 theme.widget_weather                            = theme.dir .. "/icons/dish.png"
 theme.tasklist_plain_task_name                  = true
 theme.tasklist_disable_icon                     = true
-theme.useless_gap                               = 0
+theme.useless_gap                               = 6
 theme.titlebar_close_button_focus               = theme.dir .. "/icons/titlebar/close_focus.png"
 theme.titlebar_close_button_normal              = theme.dir .. "/icons/titlebar/close_normal.png"
 theme.titlebar_ontop_button_focus_active        = theme.dir .. "/icons/titlebar/ontop_focus_active.png"
@@ -99,8 +99,8 @@ theme.titlebar_maximized_button_normal_active   = theme.dir .. "/icons/titlebar/
 theme.titlebar_maximized_button_focus_inactive  = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
 
-local markup = lain.util.markup
-local separators = lain.util.separators
+local markup                                    = lain.util.markup
+local separators                                = lain.util.separators
 
 
 -- Textclock
@@ -127,7 +127,7 @@ theme.cal = lain.widget.cal({
 -- Taskwarrior
 --local task = wibox.widget.imagebox(theme.widget_task)
 --lain.widget.contrib.task.attach(task, {
-    -- do not colorize output
+-- do not colorize output
 --    show_cmd = "task | sed -r 's/\\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g'"
 --})
 --task:buttons(my_table.join(awful.button({}, 1, lain.widget.contrib.task.prompt)))
@@ -316,20 +316,20 @@ local net = lain.widget.net({
 local arrow = separators.arrow_left
 
 function theme.powerline_rl(cr, width, height)
-    local arrow_depth, offset = height/2, 0
+    local arrow_depth, offset = height / 2, 0
 
     -- Avoid going out of the (potential) clip area
     if arrow_depth < 0 then
-        width  =  width + 2*arrow_depth
+        width  = width + 2 * arrow_depth
         offset = -arrow_depth
     end
 
-    cr:move_to(offset + arrow_depth         , 0        )
-    cr:line_to(offset + width               , 0        )
-    cr:line_to(offset + width - arrow_depth , height/2 )
-    cr:line_to(offset + width               , height   )
-    cr:line_to(offset + arrow_depth         , height   )
-    cr:line_to(offset                       , height/2 )
+    cr:move_to(offset + arrow_depth, 0)
+    cr:line_to(offset + width, 0)
+    cr:line_to(offset + width - arrow_depth, height / 2)
+    cr:line_to(offset + width, height)
+    cr:line_to(offset + arrow_depth, height)
+    cr:line_to(offset, height / 2)
 
     cr:close_path()
 end
@@ -339,13 +339,12 @@ local function pl(widget, bgcolor, padding)
 end
 
 function theme.at_screen_connect(s)
-
     --keyboard layout
     mykeyboardlayout = awful.widget.keyboardlayout()
 
     -- Quake application
-   -- s.quake = lain.util.quake({ app = awful.util.terminal })
-   s.quake = lain.util.quake({ app = "urxvt", height = 0.50, argname = "--name %s" })
+    -- s.quake = lain.util.quake({ app = awful.util.terminal })
+    s.quake = lain.util.quake({ app = "urxvt", height = 0.50, argname = "--name %s" })
 
 
 
@@ -365,10 +364,10 @@ function theme.at_screen_connect(s)
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(my_table.join(
-                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+        awful.button({}, 1, function() awful.layout.inc(1) end),
+        awful.button({}, 3, function() awful.layout.inc(-1) end),
+        awful.button({}, 4, function() awful.layout.inc(1) end),
+        awful.button({}, 5, function() awful.layout.inc(-1) end)))
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, awful.util.taglist_buttons)
 
@@ -389,7 +388,7 @@ function theme.at_screen_connect(s)
             spr,
         },
         s.mytasklist, -- Middle widget
-        { -- Right widgets
+        {             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             mykeyboardlayout,
