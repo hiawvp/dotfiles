@@ -237,7 +237,6 @@ require('lazy').setup({
   { 'christoomey/vim-tmux-navigator' },
   { 'norcalli/nvim-colorizer.lua' },
 
-
   {
     "jay-babu/mason-null-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -245,8 +244,16 @@ require('lazy').setup({
       "williamboman/mason.nvim",
       "jose-elias-alvarez/null-ls.nvim",
     }
-  }
-
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -279,7 +286,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -352,6 +359,11 @@ null_ls.setup({
       command = "djlint",
       args = { "--reformat", "-" }
     }),
+    null_ls.builtins.formatting.prettier.with({
+      filetypes = {
+        "javascript", "typescript", "css", "scss", "markdown", "graphql", "md", "txt",
+      },
+    }),
   },
 })
 
@@ -379,7 +391,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<cr>", { silent = true, noremap = true })
+-- vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<cr>", { silent = true, noremap = true })
 
 -- vim.keymap.set('n', '<leader>n', '<cmd>FloatermToggle<cr>' , { desc = 'toggle floaterm'})
 vim.keymap.set('n', '<leader>n',
@@ -392,7 +404,7 @@ vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -460,7 +472,7 @@ require 'colorizer'.setup()
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
--- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '<leader>h', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- vim.cmd('source ' .. home .. '/.vimrc')
 -- LSP settings.
@@ -504,7 +516,7 @@ local on_attach = function(_, bufnr)
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
+    vim.lsp.buf.format({ options = { timeout_ms = 2000 } })
   end, { desc = 'Format current buffer with LSP' })
 end
 
@@ -566,10 +578,11 @@ mason_lspconfig.setup_handlers {
 -- nvim-cmp setup
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
+local snip_loader = require("luasnip/loaders/from_vscode")
 
-luasnip.config.setup {
-  require("luasnip/loaders/from_vscode").load()
-}
+snip_loader.lazy_load()
+snip_loader.lazy_load({ paths = vim.fn.stdpath("config") .. "/snippets/" })
+
 luasnip.filetype_extend("htmldjango", { "html" })
 
 cmp.setup {
@@ -614,6 +627,46 @@ cmp.setup {
 
 local home = os.getenv("HOME") -- get nvimrc path
 vim.cmd('source ' .. home .. '/.vimrc')
+
+vim.filetype.add({
+  extension = {
+    foo = 'fooscript',
+    tf = 'hcl',
+  },
+  filename = {
+    ['Jenkinsfile'] = 'groovy',
+  },
+})
+
+-- if vim.fn.has('wsl') == 1 then
+--   vim.g.clipboard = {
+--     name = 'WslClipboard',
+--     copy = {
+--       ['+'] = 'win32yank.exe -i --crlf',
+--       ['*'] = 'win32yank.exe -i --crlf',
+--     },
+--     paste = {
+--       ['+'] = 'win32yank.exe -o --lf',
+--       ['*'] = 'win32yank.exe -o --lf',
+--     },
+--     cache_enabled = 0,
+--   }
+-- end
+--
+if vim.fn.has('wsl') == 1 then
+  vim.g.clipboard = {
+    name = "win32yank-wsl",
+    copy = {
+      ["+"] = "win32yank.exe -i --crlf",
+      ["*"] = "win32yank.exe -i --crlf",
+    },
+    paste = {
+      ["+"] = "win32yank.exe -o --lf",
+      ["*"] = "win32yank.exe -o --lf",
+    },
+    cache_enabled = 0,
+  }
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
