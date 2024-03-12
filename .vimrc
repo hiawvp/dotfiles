@@ -70,7 +70,7 @@ nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 
 " Disable audible bell because it's annoying.
 set noerrorbells visualbell t_vb=
-set clipboard=unnamed
+" set clipboard=unnamedplus
 " Enable mouse support. You should avoid relying on this too much, but it can
 " sometimes be convenient.
 set mouse+=a
@@ -90,7 +90,7 @@ nmap <leader>; A;<Esc>
 "nnoremap <leader>p :set paste!<cr>
 "vmap <leader>y :w !xclip -selection clipboard <cr><cr>
 nnoremap <leader>p "+p<cr>
-vmap <leader>y "+y
+" vmap <leader>y "+y
 vnoremap y ygv<Esc>
 
 :vnoremap <Leader>c "cy

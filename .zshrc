@@ -18,6 +18,16 @@ export PATH=$PATH:~/go/bin
 export PATH=$PATH:~/go/bin/bin
 export PATH=$PATH:/opt/flutter/bin
 export GOPATH=/home/joselo/go/bin
+export PATH="$PATH:/opt/flutter/bin"
+
+if [ -d "$HOME/.bin" ] ;
+  then PATH="$HOME/.bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ;
+  then PATH="$HOME/.local/bin:$PATH"
+fi
+
 export PYTHONDONTWRITEBYTECODE="1"
 
 # Path to your oh-my-zsh installation.
@@ -26,12 +36,56 @@ export PYTHONDONTWRITEBYTECODE="1"
 #installation via paru -S oh-my-zsh-git
 export ZSH=/usr/share/oh-my-zsh/
 
+ZSH_THEME="wedisagree"
+
+ZSH_CUSTOM=$HOME/.oh-my-zsh/
+
+plugins=(git) 
+alias nz="$EDITOR ~/.zshrc"
+
+if [ -f $ZSH/oh-my-zsh.sh ]; then
+  source $ZSH/oh-my-zsh.sh
+fi
+
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+#create a file called .zshrc-personal and put all your personal aliases
+#in there. They will not be overwritten by skel.
+
+[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
+
+function lk {
+  cd "$(walk "$@")"
+}
+
+####   ARCOLINUX SETTINGS   ####
+export PAGER='most'
+
+setopt GLOB_DOTS
+#share commands between terminal instances or not
+unsetopt SHARE_HISTORY
+#setopt SHARE_HISTORY
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+export HISTCONTROL=ignoreboth:erasedups
+
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+#PS1='[\u@\h \W]\$ '
+
+
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # if you installed the package oh-my-zsh-powerline-theme-git then you type here "powerline" as zsh theme
-ZSH_THEME="wedisagree"
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -87,22 +141,12 @@ ZSH_THEME="wedisagree"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=$HOME/.oh-my-zsh/
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git) 
-
-if [ -f $ZSH/oh-my-zsh.sh ]; then
-  source $ZSH/oh-my-zsh.sh
-fi
-
-if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
 
 # if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # fi
@@ -145,35 +189,6 @@ fi
 # export ARCHFLAGS="-arch x86_64"
 
 
-####   ARCOLINUX SETTINGS   ####
-export PAGER='most'
-
-
-
-setopt GLOB_DOTS
-#share commands between terminal instances or not
-unsetopt SHARE_HISTORY
-#setopt SHARE_HISTORY
-
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
-export HISTCONTROL=ignoreboth:erasedups
-
-export EDITOR='nvim'
-export VISUAL='nvim'
-
-#PS1='[\u@\h \W]\$ '
-
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
-fi
-
-export PATH="$PATH:/opt/flutter/bin"
 #export JAVA_HOME=/usr/
 
 ### ALIASES ###
@@ -407,10 +422,9 @@ alias jctl="journalctl -p 3 -xb"
 # alias nhostname="sudo $EDITOR /etc/hostname"
 # alias nresolv="sudo $EDITOR /etc/resolv.conf"
 alias nb="$EDITOR ~/.bashrc"
-alias nz="$EDITOR ~/.zshrc"
-alias nf="$EDITOR ~/.config/fish/config.fish"
-alias nneofetch="$EDITOR ~/.config/neofetch/config.conf"
-alias nplymouth="sudo $EDITOR /etc/plymouth/plymouthd.conf"
+# alias nf="$EDITOR ~/.config/fish/config.fish"
+# alias nneofetch="$EDITOR ~/.config/neofetch/config.conf"
+# alias nplymouth="sudo $EDITOR /etc/plymouth/plymouthd.conf"
 
 #reading logs with bat
 alias lcalamares="bat /var/log/Calamares.log"
@@ -456,15 +470,15 @@ alias probe="sudo -E hw-probe -all -upload"
 alias sysfailed="systemctl list-units --failed"
 
 #shutdown or reboot
-alias ssn="sudo shutdown now"
-alias sr="reboot"
+# alias ssn="sudo shutdown now"
+# alias sr="reboot"
 
 #update betterlockscreen images
-alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+# alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 
 #give the list of all installed desktops - xsessions desktops
-alias xd="ls /usr/share/xsessions"
-alias xdw="ls /usr/share/wayland-sessions"
+# alias xd="ls /usr/share/xsessions"
+# alias xdw="ls /usr/share/wayland-sessions"
 
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
@@ -494,12 +508,12 @@ ex ()
 }
 
 #wayland aliases
-alias wsimplescreen="wf-recorder -a"
-alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
+# alias wsimplescreen="wf-recorder -a"
+# alias wsimplescreenrecorder="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
 #btrfs aliases
-alias btrfsfs="sudo btrfs filesystem df /"
-alias btrfsli="sudo btrfs su li / -t"
+# alias btrfsfs="sudo btrfs filesystem df /"
+# alias btrfsli="sudo btrfs su li / -t"
 
 #snapper aliases
 # alias snapcroot="sudo snapper -c root create-config /"
@@ -518,30 +532,26 @@ alias btrfsli="sudo btrfs su li / -t"
 #arcolinux applications
 #att is a symbolic link now
 #alias att="archlinux-tweak-tool"
-alias adt="arcolinux-desktop-trasher"
-alias abl="arcolinux-betterlockscreen"
-alias agm="arcolinux-get-mirrors"
-alias amr="arcolinux-mirrorlist-rank-info"
-alias aom="arcolinux-osbeck-as-mirror"
-alias ars="arcolinux-reflector-simple"
-alias atm="arcolinux-tellme"
-alias avs="arcolinux-vbox-share"
-alias awa="arcolinux-welcome-app"
+# alias adt="arcolinux-desktop-trasher"
+# alias abl="arcolinux-betterlockscreen"
+# alias agm="arcolinux-get-mirrors"
+# alias amr="arcolinux-mirrorlist-rank-info"
+# alias aom="arcolinux-osbeck-as-mirror"
+# alias ars="arcolinux-reflector-simple"
+# alias atm="arcolinux-tellme"
+# alias avs="arcolinux-vbox-share"
+# alias awa="arcolinux-welcome-app"
 
 #git
 alias rmgitcache="rm -r ~/.cache/git"
-alias grh="git reset --hard"
+# alias grh="git reset --hard"
 
 #pamac
-alias pamac-unlock="sudo rm /var/tmp/pamac/dbs/db.lock"
+# alias pamac-unlock="sudo rm /var/tmp/pamac/dbs/db.lock"
 
 #moving your personal files and folders from /personal to ~
 alias personal='cp -Rf /personal/* ~'
 
-#create a file called .zshrc-personal and put all your personal aliases
-#in there. They will not be overwritten by skel.
-
-[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
 # reporting tools - install when not installed
 # neofetch
