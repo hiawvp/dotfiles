@@ -27,7 +27,7 @@ Installing:
 # ~/Documents/work/.gitconfig-work
 # comando ssh que apunte a otra ssh key
 [core]
-  SshCommand = "ssh -i ~/.ssh/id_ed25519_work"
+  	SshCommand = "ssh -i ~/.ssh/id_ed25519_work"
 [user]
 	email = joselo@work.cl
 	name = joselo
