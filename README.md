@@ -12,3 +12,27 @@ Installing:
 ## dependencies:
 
 [tmux plugin manager](https://github.com/tmux-plugins/tpm)
+
+# Otras configuraciones
+
+## multiples credenciales git
+
+```
+# ~/.gitconfig
+[includeIf "gitdir:/home/joselo/Documents/work/"]
+	path = /home/joselo/Documents/work/.gitconfig-work
+```
+
+```
+# ~/Documents/work/.gitconfig-work
+# comando ssh que apunte a otra ssh key
+[core]
+  SshCommand = "ssh -i ~/.ssh/id_ed25519_work"
+[user]
+	email = joselo@work.cl
+	name = joselo
+[safe]
+	directory = /opt/flutter
+[init]
+	defaultBranch = main
+```
